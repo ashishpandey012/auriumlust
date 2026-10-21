@@ -14,7 +14,7 @@ export default function AboutPage() {
           {/* Centered Heading with Cyan Accent Underline */}
           <div className="text-center">
             <h1 className="text-2xl sm:text-[28px] font-semibold text-white tracking-normal">
-              About aureumlust
+              About auriumlust
             </h1>
             {/* Short cyan accent underline */}
             <div className="mx-auto mt-2.5 h-[3px] w-16 rounded-full bg-[#00c0f0]" />
@@ -24,7 +24,7 @@ export default function AboutPage() {
           <div className="mt-10 sm:mt-12 space-y-8 text-sm sm:text-base leading-relaxed text-[#d1d5db]">
             {/* Intro paragraph */}
             <p>
-              Welcome to aureumlust, your premier destination for high-quality
+              Welcome to auriumlust, your premier destination for high-quality
               adult entertainment. We are dedicated to providing a diverse and
               extensive library of content to satisfy every desire. Our platform
               is designed with the user in mind, featuring a sleek interface,
@@ -54,10 +54,10 @@ export default function AboutPage() {
                 Have a question, comment, or suggestion? We&apos;d love to hear
                 from you. Please reach out to our support team at{" "}
                 <a
-                  href="mailto:support@aureumlust.example"
+                  href="mailto:support@auriumlust.example"
                   className="text-white hover:text-[#00c0f0] underline transition-colors"
                 >
-                  support@aureumlust.example
+                  support@auriumlust.example
                 </a>
                 .
               </p>

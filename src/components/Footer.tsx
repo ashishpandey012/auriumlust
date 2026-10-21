@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center space-y-1.5">
         {/* Line 1: Copyright */}
         <p className="text-xs sm:text-[13px] text-[#9ca3af]">
-          {"\u00A9"} 2026 aureumlust. All Rights Reserved.
+          {"\u00A9"} 2026 auriumlust. All Rights Reserved.
         </p>
 
         {/* Line 2: Compliance & Privacy */}

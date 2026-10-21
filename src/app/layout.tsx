@@ -2,10 +2,10 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "aureumlust - Premium Video Portal",
+  title: "auriumlust - Premium Video Portal",
   description:
-    "Explore featured videos, trending clips, and top categories on aureumlust.",
-  keywords: ["aureumlust", "videos", "featured", "categories"],
+    "Explore featured videos, trending clips, and top categories on auriumlust.",
+  keywords: ["auriumlust", "videos", "featured", "categories"],
 };
 
 export const viewport: Viewport = {

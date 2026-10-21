@@ -38,7 +38,7 @@ export default function Header({
             id="brand-logo"
           >
             <span className="text-2xl sm:text-[26px] font-bold tracking-tight text-[#00b8e6] sm:text-[#00c0f0]">
-              aureumlust
+              auriumlust
             </span>
           </Link>
         </div>

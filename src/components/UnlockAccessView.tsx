@@ -15,13 +15,17 @@ export default function UnlockAccessView({ onClose }: UnlockAccessViewProps) {
   const handleSignUp = (e: React.FormEvent) => {
     e.preventDefault();
     if (typeof window !== "undefined") {
-      // Ensure the URL retains the unlock parameter so the refreshed state stays on this page
-      const url = new URL(window.location.href);
-      url.searchParams.set("unlock", "true");
-      if (window.location.href === url.toString()) {
+      // Clear form inputs
+      setUsername("");
+      setEmail("");
+      setPassword("");
+
+      // If already on /unlock, reload the page to refresh it in-place
+      // If on another route, navigate to /unlock so the home page never flashes
+      if (window.location.pathname === "/unlock") {
         window.location.reload();
       } else {
-        window.location.href = url.toString();
+        window.location.href = "/unlock";
       }
     }
   };
