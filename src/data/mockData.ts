@@ -138,7 +138,7 @@ export const ALL_CATEGORIES: CategoryItem[] = [
 ];
 
 export const NAV_LINKS = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: "/offer/2026" },
   { label: "Videos", href: "/videos" },
   { label: "Categories", href: "/categories" },
   { label: "About", href: "/about" },

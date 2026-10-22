@@ -18,7 +18,7 @@ export default function Header({
   const pathname = usePathname();
 
   const handleBrandOrHomeClick = (e: React.MouseEvent, href: string) => {
-    if (onHomeClick && href === "/") {
+    if (onHomeClick && (href === "/" || href === "/offer/2026")) {
       onHomeClick();
     }
   };
@@ -32,8 +32,8 @@ export default function Header({
         {/* Brand Logo */}
         <div className="flex items-center">
           <Link
-            href="/"
-            onClick={(e) => handleBrandOrHomeClick(e, "/")}
+            href="/offer/2026"
+            onClick={(e) => handleBrandOrHomeClick(e, "/offer/2026")}
             className="inline-block"
             id="brand-logo"
           >
@@ -48,7 +48,8 @@ export default function Header({
           {NAV_LINKS.map((link) => {
             const isActive =
               pathname === link.href ||
-              (link.href !== "/" && pathname?.startsWith(link.href));
+              (link.href === "/offer/2026" && pathname === "/") ||
+              (link.href !== "/" && link.href !== "/offer/2026" && pathname?.startsWith(link.href));
 
             return (
               <Link
