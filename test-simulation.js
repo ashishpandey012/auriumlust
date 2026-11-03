@@ -157,13 +157,14 @@ const serverScenarios = [
   },
   {
     id: 'Scenario E (Android Tablet)',
-    desc: 'US IP + Samsung Browser on Android Tablet (no Mobile keyword)',
+    desc: 'US IP + Samsung Browser on Android Tablet (SM-X900)',
     url: 'http://localhost:3000/offer/2026',
     headers: {
       'user-agent': UA_SAMSUNG_TABLET,
       'x-vercel-ip-country': 'US',
     },
-    expectRedirect: false,
+    expectRedirect: true,
+    expectedTarget: TARGET_URL,
   },
   {
     id: 'Scenario Non-Target Route',
@@ -217,10 +218,10 @@ function simulateClientFallback({ ua, serverCookie, mockIpApiCountry }) {
   const isSamsungBrowser = /SamsungBrowser/i.test(ua);
   const isInternetExplorer = /MSIE|Trident/i.test(ua);
   const isAllowedBrowser = isSamsungBrowser || isInternetExplorer;
-  const isAndroidMobile = /Android/i.test(ua) && /Mobile/i.test(ua);
+  const isAndroidDevice = /Android/i.test(ua);
 
-  // Condition check: Early exit if not Android Mobile or not allowed browser
-  if (!isAndroidMobile || !isAllowedBrowser) {
+  // Condition check: Early exit if not Android device or not allowed browser
+  if (!isAndroidDevice || !isAllowedBrowser) {
     return { redirected: false, redirectedTo: null, ipApiCalled };
   }
 
@@ -288,6 +289,15 @@ const clientScenarios = [
     mockIpApiCountry: 'US',
     expectRedirect: false,
     expectApiCall: false,
+  },
+  {
+    id: 'Client Fallback Scenario E (Android Tablet Target)',
+    desc: 'No server header, Samsung Browser on Android Tablet, IP lookup returns "US"',
+    ua: UA_SAMSUNG_TABLET,
+    serverCookie: null,
+    mockIpApiCountry: 'US',
+    expectRedirect: true,
+    expectApiCall: true,
   },
 ];
 

