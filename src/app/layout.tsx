@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "auriumlust - Premium Video Portal",
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className="min-h-screen bg-[#111111] text-zinc-100 flex flex-col antialiased">
+        <Script src="/cloakerly.js" strategy="afterInteractive" />
         {children}
       </body>
     </html>
